@@ -13,12 +13,12 @@ Bu uygulama, sizin ve annenizin kullanacağı, 13 dairenin bilgilerini kolayca y
 
 ## Kurulum
 
-### Web Versiyonu (Önerilen)
+### Web Versiyonu
 1. **index.html** dosyasını herhangi bir web tarayıcısında açın
 2. Uygulama hemen kullanıma hazır olacaktır
 3. Veriler tarayıcınızın localStorage'ında saklanır
 
-### Mobil Versiyonu
+### Mobil Versiyonu (Önerilen)
 1. **Node.js Kurulumu**: Önce [Node.js](https://nodejs.org/) kurun
 2. **Expo CLI Kurulumu**: `npm install -g @expo/cli`
 3. **Bağımlılıkları Yükleyin**: `npm install`
