@@ -49,16 +49,11 @@ Bu uygulama, sizin ve annenizin kullanacağı, 13 dairenin bilgilerini kolayca y
 - **Veri Saklama**: AsyncStorage
 - **İkonlar**: Expo Vector Icons
 
-## Ekran Görüntüleri
 
 Uygulama şu ekranları içerir:
 1. **Ana Ekran**: Daire listesi
 2. **Daire Ekleme**: Yeni daire formu
 3. **Daire Detayı**: Daire bilgileri ve düzenleme
-
-## Geliştirme
-
-Bu uygulama özellikle sizin ve annenizin ihtiyaçları için tasarlanmıştır. 13 dairenin bilgilerini kolayca yönetebilir, su, elektrik, doğalgaz ve DASK numaralarına hızlıca erişebilirsiniz.
 
 ## Lisans
 
