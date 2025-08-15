@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "Kahraman",
+    "slug": "kahraman",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "icon": "./assets/icon.png",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "icon": "./assets/icon.png",
+      "bundleIdentifier": "com.kahraman.dairetakip"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#2196F3"
+      },
+      "icon": "./assets/icon.png",
+      "package": "com.kahraman.dairetakip"
+    },
+    "web": {
+      "favicon": "./assets/icon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c9afa394-2293-474c-94d5-2c51ae5b7a34"
+      }
+    },
+    "owner": "sertackahraman"
+  }
+}

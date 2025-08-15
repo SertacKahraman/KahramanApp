@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daire Takip Uygulaması</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .header {
+            background-color: #2196F3;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .add-daire-btn {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: block;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        .add-daire-btn:hover {
+            background-color: #1976D2;
+        }
+
+        .daire-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .daire-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .daire-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .daire-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2196F3;
+        }
+
+        .daire-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-edit, .btn-delete {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-edit {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background-color: #1976D2;
+        }
+
+        .btn-delete {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #d32f2f;
+        }
+
+        .daire-address {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .icon-su { background-color: #00BCD4; }
+        .icon-elektrik { background-color: #FFC107; }
+        .icon-dogalgaz { background-color: #FF5722; }
+        .icon-dask { background-color: #4CAF50; }
+
+        .info-label {
+            font-weight: 600;
+            color: #666;
+            min-width: 80px;
+        }
+
+        .info-value {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .notes {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #2196F3;
+        }
+
+        .notes-label {
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .notes-text {
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .footer {
+            border-top: 1px solid #e0e0e0;
+            padding-top: 15px;
+            color: #999;
+            font-size: 12px;
+            text-align: right;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .close {
+            color: #666;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #2196F3;
+        }
+
+        .form-textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .btn-cancel, .btn-save {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-cancel {
+            background-color: #f5f5f5;
+            color: #666;
+            border: 1px solid #ddd;
+        }
+
+        .btn-cancel:hover {
+            background-color: #e0e0e0;
+        }
+
+        .btn-save {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background-color: #1976D2;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #999;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏠 Daire Takip Sistemi</h1>
+        <p>13 dairenizin bilgilerini kolayca yönetin</p>
+    </div>
+
+    <div class="container">
+        <button class="add-daire-btn" onclick="openAddModal()">
+            ➕ Yeni Daire Ekle
+        </button>
+
+        <div id="daireler-container">
+            <!-- Daireler buraya dinamik olarak eklenecek -->
+        </div>
+    </div>
+
+    <!-- Daire Ekleme/Düzenleme Modal -->
+    <div id="daireModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Yeni Daire Ekle</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            
+            <form id="daireForm">
+                <div class="form-group">
+                    <label class="form-label">Daire Adı *</label>
+                    <input type="text" class="form-input" id="daireAd" required placeholder="Örn: A Blok Daire 1">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Adres *</label>
+                    <textarea class="form-input form-textarea" id="daireAdres" required placeholder="Daire adresini girin"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Su Numarası</label>
+                    <input type="text" class="form-input" id="suNumarasi" placeholder="Su sayacı numarası">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Elektrik Numarası</label>
+                    <input type="text" class="form-input" id="elektrikNumarasi" placeholder="Elektrik sayacı numarası">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Doğalgaz Numarası</label>
+                    <input type="text" class="form-input" id="dogalgazNumarasi" placeholder="Doğalgaz sayacı numarası">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">DASK Numarası</label>
+                    <input type="text" class="form-input" id="daskNumarasi" placeholder="DASK sigorta numarası">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Notlar</label>
+                    <textarea class="form-input form-textarea" id="notlar" placeholder="Ek notlar ekleyin (opsiyonel)"></textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">İptal</button>
+                    <button type="submit" class="btn-save">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let daireler = JSON.parse(localStorage.getItem('daireler') || '[]');
+        let editingDaireId = null;
+
+        // Sayfa yüklendiğinde daireleri göster
+        document.addEventListener('DOMContentLoaded', function() {
+            renderDaireler();
+        });
+
+        // Daireleri render et
+        function renderDaireler() {
+            const container = document.getElementById('daireler-container');
+            
+            if (daireler.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>🏠 Henüz daire eklenmemiş</h3>
+                        <p>İlk dairenizi eklemek için yukarıdaki butona tıklayın</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = daireler.map(daire => `
+                <div class="daire-card">
+                    <div class="daire-header">
+                        <div class="daire-title">${daire.ad}</div>
+                        <div class="daire-actions">
+                            <button class="btn-edit" onclick="editDaire('${daire.id}')">✏️ Düzenle</button>
+                            <button class="btn-delete" onclick="deleteDaire('${daire.id}')">🗑️ Sil</button>
+                        </div>
+                    </div>
+                    
+                    <div class="daire-address">📍 ${daire.adres}</div>
+                    
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-icon icon-su">💧</div>
+                            <span class="info-label">Su:</span>
+                            <span class="info-value">${daire.suNumarasi || 'Belirtilmemiş'}</span>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon icon-elektrik">⚡</div>
+                            <span class="info-label">Elektrik:</span>
+                            <span class="info-value">${daire.elektrikNumarasi || 'Belirtilmemiş'}</span>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon icon-dogalgaz">🔥</div>
+                            <span class="info-label">Doğalgaz:</span>
+                            <span class="info-value">${daire.dogalgazNumarasi || 'Belirtilmemiş'}</span>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon icon-dask">🛡️</div>
+                            <span class="info-label">DASK:</span>
+                            <span class="info-value">${daire.daskNumarasi || 'Belirtilmemiş'}</span>
+                        </div>
+                    </div>
+                    
+                    ${daire.notlar ? `
+                        <div class="notes">
+                            <div class="notes-label">📝 Notlar:</div>
+                            <div class="notes-text">${daire.notlar}</div>
+                        </div>
+                    ` : ''}
+                    
+                    <div class="footer">
+                        Son güncelleme: ${new Date(daire.updatedAt).toLocaleDateString('tr-TR')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Modal aç
+        function openAddModal() {
+            editingDaireId = null;
+            document.getElementById('modalTitle').textContent = 'Yeni Daire Ekle';
+            document.getElementById('daireForm').reset();
+            document.getElementById('daireModal').style.display = 'block';
+        }
+
+        // Modal kapat
+        function closeModal() {
+            document.getElementById('daireModal').style.display = 'none';
+            editingDaireId = null;
+        }
+
+        // Daire düzenle
+        function editDaire(id) {
+            const daire = daireler.find(d => d.id === id);
+            if (!daire) return;
+
+            editingDaireId = id;
+            document.getElementById('modalTitle').textContent = 'Daire Bilgilerini Düzenle';
+            
+            document.getElementById('daireAd').value = daire.ad;
+            document.getElementById('daireAdres').value = daire.adres;
+            document.getElementById('suNumarasi').value = daire.suNumarasi;
+            document.getElementById('elektrikNumarasi').value = daire.elektrikNumarasi;
+            document.getElementById('dogalgazNumarasi').value = daire.dogalgazNumarasi;
+            document.getElementById('daskNumarasi').value = daire.daskNumarasi;
+            document.getElementById('notlar').value = daire.notlar || '';
+
+            document.getElementById('daireModal').style.display = 'block';
+        }
+
+        // Daire sil
+        function deleteDaire(id) {
+            if (confirm('Bu daireyi silmek istediğinizden emin misiniz?')) {
+                daireler = daireler.filter(d => d.id !== id);
+                saveDaireler();
+                renderDaireler();
+            }
+        }
+
+        // Daireleri kaydet
+        function saveDaireler() {
+            localStorage.setItem('daireler', JSON.stringify(daireler));
+        }
+
+        // Form submit
+        document.getElementById('daireForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                ad: document.getElementById('daireAd').value.trim(),
+                adres: document.getElementById('daireAdres').value.trim(),
+                suNumarasi: document.getElementById('suNumarasi').value.trim(),
+                elektrikNumarasi: document.getElementById('elektrikNumarasi').value.trim(),
+                dogalgazNumarasi: document.getElementById('dogalgazNumarasi').value.trim(),
+                daskNumarasi: document.getElementById('daskNumarasi').value.trim(),
+                notlar: document.getElementById('notlar').value.trim()
+            };
+
+            if (!formData.ad || !formData.adres) {
+                alert('Lütfen daire adı ve adresini doldurun.');
+                return;
+            }
+
+            if (editingDaireId) {
+                // Düzenleme
+                const index = daireler.findIndex(d => d.id === editingDaireId);
+                if (index !== -1) {
+                    daireler[index] = {
+                        ...daireler[index],
+                        ...formData,
+                        updatedAt: new Date().toISOString()
+                    };
+                }
+            } else {
+                // Yeni daire
+                const newDaire = {
+                    id: Date.now().toString(),
+                    ...formData,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+                daireler.push(newDaire);
+            }
+
+            saveDaireler();
+            renderDaireler();
+            closeModal();
+            
+            alert(editingDaireId ? 'Daire başarıyla güncellendi!' : 'Daire başarıyla eklendi!');
+        });
+
+        // Modal dışına tıklandığında kapat
+        window.onclick = function(event) {
+            const modal = document.getElementById('daireModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
+
