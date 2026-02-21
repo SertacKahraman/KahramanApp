@@ -1,10 +1,10 @@
 # Daire Takip Uygulaması
 
-Bu uygulama, sizin ve annenizin kullanacağı, 13 dairenin bilgilerini kolayca yönetebileceğiniz bir mobil uygulamadır.
+Bu uygulama, sizin ve annenizin kullanacağı, dairelerin bilgilerini kolayca yönetebileceğiniz bir mobil uygulamadır.
 
 ## Özellikler
 
-- **Daire Yönetimi**: 13 dairenin bilgilerini ekleme, düzenleme ve silme
+- **Daire Yönetimi**: Daire bilgilerini ekleme, düzenleme ve silme
 - **Fatura Takibi**: Her daire için su, elektrik, doğalgaz ve DASK numaralarını saklama
 - **Kolay Erişim**: Daire bilgilerine hızlıca erişim
 - **Notlar**: Her daire için ek notlar ekleme
