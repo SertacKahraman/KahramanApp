@@ -1,6 +1,6 @@
 # Daire Takip Uygulaması
 
-Bu uygulama, sizin ve annenizin kullanacağı, dairelerin bilgilerini kolayca yönetebileceğiniz bir mobil uygulamadır.
+Bu uygulama, dairelerin bilgilerini kolayca yönetebileceğiniz bir mobil uygulamadır.
 
 ## Özellikler
 
